@@ -56,6 +56,8 @@ npm install  # for commitlint + semantic-release
 
 Then edit `.pre-commit-config.yaml` to uncomment hooks for your stack.
 
+**Important:** Commit `package-lock.json` - do NOT add it to `.gitignore`. CI requires it for `npm ci`.
+
 ## Folder Structure
 
 ```
@@ -117,6 +119,8 @@ If your `main` branch requires PRs (branch protection), semantic-release needs a
    - **Permissions:**
      - Repository permissions:
        - Contents: **Read and write**
+       - Issues: **Read and write**
+       - Pull requests: **Read and write**
        - Metadata: **Read-only** (auto-selected)
    - Click "Create GitHub App"
 
