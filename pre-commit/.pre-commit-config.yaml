@@ -1,0 +1,101 @@
+# Pre-commit hooks configuration
+# Install: pip install pre-commit && pre-commit install
+# Docs: https://pre-commit.com
+
+repos:
+  # =============================================================================
+  # GENERAL HOOKS (any project)
+  # =============================================================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace        # Remove trailing whitespace
+      - id: end-of-file-fixer          # Ensure files end with newline
+      - id: check-yaml                 # Validate YAML syntax
+      - id: check-json                 # Validate JSON syntax
+      - id: check-added-large-files    # Prevent giant files from being committed
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict       # Check for merge conflict strings
+      - id: detect-private-key         # Detect private keys
+      - id: no-commit-to-branch        # Prevent direct commits to main
+        args: ['--branch', 'main']
+
+  # =============================================================================
+  # COMMIT MESSAGE (uses commitlint - shares config with husky approach)
+  # =============================================================================
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.18.0
+    hooks:
+      - id: commitlint
+        stages: [commit-msg]
+        additional_dependencies: ['@commitlint/config-conventional']
+
+  # =============================================================================
+  # TERRAFORM HOOKS (uncomment for Terraform projects)
+  # =============================================================================
+  # - repo: https://github.com/antonbabenko/pre-commit-terraform
+  #   rev: v1.96.1
+  #   hooks:
+  #     - id: terraform_fmt             # Auto-format Terraform files
+  #     - id: terraform_validate        # Validate Terraform syntax
+  #     - id: terraform_tflint          # Lint Terraform (requires tflint installed)
+  #       args:
+  #         - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
+  #     - id: terraform_docs            # Auto-generate docs (requires terraform-docs)
+  #       args:
+  #         - --hook-config=--path-to-file=README.md
+  #         - --hook-config=--add-to-existing-file=true
+  #         - --hook-config=--create-file-if-not-exist=true
+  #     # - id: terraform_tfsec         # Security scanning (requires tfsec)
+  #     # - id: terraform_checkov       # Policy-as-code (requires checkov)
+
+  # =============================================================================
+  # JAVASCRIPT/TYPESCRIPT HOOKS (uncomment for JS/TS projects)
+  # =============================================================================
+  # - repo: https://github.com/pre-commit/mirrors-eslint
+  #   rev: v9.15.0
+  #   hooks:
+  #     - id: eslint
+  #       files: \.[jt]sx?$
+  #       types: [file]
+  #       additional_dependencies:
+  #         - eslint@9
+  #         - eslint-config-next@15
+  #
+  # - repo: https://github.com/pre-commit/mirrors-prettier
+  #   rev: v4.0.0-alpha.8
+  #   hooks:
+  #     - id: prettier
+  #       types_or: [javascript, jsx, ts, tsx, json, yaml, markdown, css]
+
+  # =============================================================================
+  # PYTHON HOOKS (uncomment for Python projects)
+  # =============================================================================
+  # - repo: https://github.com/psf/black
+  #   rev: 24.10.0
+  #   hooks:
+  #     - id: black
+  #
+  # - repo: https://github.com/charliermarsh/ruff-pre-commit
+  #   rev: v0.7.4
+  #   hooks:
+  #     - id: ruff
+  #       args: [--fix]
+
+  # =============================================================================
+  # GO HOOKS (uncomment for Go projects)
+  # =============================================================================
+  # - repo: https://github.com/dnephin/pre-commit-golang
+  #   rev: v0.5.1
+  #   hooks:
+  #     - id: go-fmt
+  #     - id: go-vet
+  #     - id: go-build
+
+  # =============================================================================
+  # SHELL SCRIPT HOOKS (uncomment if you have shell scripts)
+  # =============================================================================
+  # - repo: https://github.com/shellcheck-py/shellcheck-py
+  #   rev: v0.10.0.1
+  #   hooks:
+  #     - id: shellcheck

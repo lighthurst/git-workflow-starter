@@ -1,0 +1,25 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "commit": "cz",
+    "release": "semantic-release"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
+    "semantic-release": "^24.2.7"
+  }
+}

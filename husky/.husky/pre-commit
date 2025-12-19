@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+# Add your pre-commit checks here
+# Examples:
+#   npm run lint
+#   npm run test
+#   terraform fmt -check (for Terraform projects)
+#   go fmt ./... (for Go projects)
+
+echo "Running pre-commit checks..."
