@@ -79,6 +79,8 @@ mkdir -p "$TARGET_DIR/.github/workflows"
 cp "$SCRIPT_DIR/shared/.releaserc.json" "$TARGET_DIR/"
 cp "$SCRIPT_DIR/shared/commitlint.config.js" "$TARGET_DIR/"
 cp "$SCRIPT_DIR/shared/.github/workflows/ci.yml" "$TARGET_DIR/.github/workflows/"
+cp "$SCRIPT_DIR/shared/.github/dependabot.yml" "$TARGET_DIR/.github/"
+cp "$SCRIPT_DIR/shared/.github/pull_request_template.md" "$TARGET_DIR/.github/"
 
 if [[ "$FRAMEWORK" == "husky" ]]; then
     # Copy Husky files
