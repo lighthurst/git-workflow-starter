@@ -66,8 +66,11 @@ git-workflow-starter/
 ├── shared/                  # Used by both approaches
 │   ├── commitlint.config.js # Commit message rules
 │   ├── .releaserc.json      # Semantic-release config
-│   └── .github/workflows/
-│       └── ci.yml           # CI pipeline (uses GitHub App)
+│   └── .github/
+│       ├── workflows/
+│       │   └── ci.yml       # CI pipeline (uses GitHub App)
+│       ├── dependabot.yml   # Automated dependency updates
+│       └── pull_request_template.md
 ├── husky/                   # Husky-based approach
 │   ├── package.json         # Full npm tooling (8 deps)
 │   └── .husky/
@@ -180,3 +183,10 @@ Edit `.pre-commit-config.yaml`:
 Edit `.github/workflows/ci.yml`:
 - Replace placeholder steps with your actual validation
 - Add environment variables/secrets as needed
+
+### Dependabot
+
+Edit `.github/dependabot.yml`:
+- Adjust `schedule.interval` (daily, weekly, monthly)
+- Add ecosystems for your stack (pip, docker, terraform, etc.)
+- Configure `ignore` rules to skip certain packages
