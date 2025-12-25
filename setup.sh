@@ -106,22 +106,22 @@ else
     # Uncomment relevant hooks based on project type
     case $PROJECT_TYPE in
         1) # Terraform
-            sed -i.bak '/# TERRAFORM HOOKS/,/^$/{s/^  # /  /}' "$TARGET_DIR/.pre-commit-config.yaml"
+            sed -i.bak '/# TERRAFORM HOOKS/,/^$/s/^  # /  /' "$TARGET_DIR/.pre-commit-config.yaml"
             rm -f "$TARGET_DIR/.pre-commit-config.yaml.bak"
             echo -e "${GREEN}Enabled Terraform hooks (fmt, validate, tflint)${NC}"
             ;;
         2) # JavaScript
-            sed -i.bak '/# JAVASCRIPT/,/^$/{s/^  # /  /}' "$TARGET_DIR/.pre-commit-config.yaml"
+            sed -i.bak '/# JAVASCRIPT/,/^$/s/^  # /  /' "$TARGET_DIR/.pre-commit-config.yaml"
             rm -f "$TARGET_DIR/.pre-commit-config.yaml.bak"
             echo -e "${GREEN}Enabled JavaScript hooks (eslint, prettier)${NC}"
             ;;
         3) # Python
-            sed -i.bak '/# PYTHON HOOKS/,/^$/{s/^  # /  /}' "$TARGET_DIR/.pre-commit-config.yaml"
+            sed -i.bak '/# PYTHON HOOKS/,/^$/s/^  # /  /' "$TARGET_DIR/.pre-commit-config.yaml"
             rm -f "$TARGET_DIR/.pre-commit-config.yaml.bak"
             echo -e "${GREEN}Enabled Python hooks (black, ruff)${NC}"
             ;;
         4) # Go
-            sed -i.bak '/# GO HOOKS/,/^$/{s/^  # /  /}' "$TARGET_DIR/.pre-commit-config.yaml"
+            sed -i.bak '/# GO HOOKS/,/^$/s/^  # /  /' "$TARGET_DIR/.pre-commit-config.yaml"
             rm -f "$TARGET_DIR/.pre-commit-config.yaml.bak"
             echo -e "${GREEN}Enabled Go hooks (fmt, vet, build)${NC}"
             ;;
