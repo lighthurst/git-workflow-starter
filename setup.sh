@@ -118,7 +118,7 @@ else
         3) # Python
             sed -i.bak '/# PYTHON HOOKS/,/^$/s/^  # /  /' "$TARGET_DIR/.pre-commit-config.yaml"
             rm -f "$TARGET_DIR/.pre-commit-config.yaml.bak"
-            echo -e "${GREEN}Enabled Python hooks (black, ruff)${NC}"
+            echo -e "${GREEN}Enabled Python hooks (ruff, mypy)${NC}"
             ;;
         4) # Go
             sed -i.bak '/# GO HOOKS/,/^$/s/^  # /  /' "$TARGET_DIR/.pre-commit-config.yaml"
