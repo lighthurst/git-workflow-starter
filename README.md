@@ -9,6 +9,8 @@ Drop-in git workflow tooling for any project. Choose your approach:
 
 Both include semantic-release for automated versioning.
 
+**Requires:** Node 22+ (pinned via `.nvmrc`)
+
 ## Quick Start
 
 ```bash
@@ -32,6 +34,7 @@ cp husky/package.json /your/project/
 cp -r husky/.husky /your/project/
 cp shared/commitlint.config.js /your/project/
 cp shared/.releaserc.json /your/project/
+cp shared/.nvmrc /your/project/
 cp -r shared/.github /your/project/
 
 cd /your/project
@@ -45,6 +48,7 @@ cp pre-commit/package.json /your/project/
 cp pre-commit/.pre-commit-config.yaml /your/project/
 cp shared/commitlint.config.js /your/project/
 cp shared/.releaserc.json /your/project/
+cp shared/.nvmrc /your/project/
 cp -r shared/.github /your/project/
 
 cd /your/project
@@ -64,6 +68,7 @@ Then edit `.pre-commit-config.yaml` to uncomment hooks for your stack.
 git-workflow-starter/
 ├── setup.sh                 # Interactive setup script
 ├── shared/                  # Used by both approaches
+│   ├── .nvmrc               # Node version (22)
 │   ├── commitlint.config.js # Commit message rules
 │   ├── .releaserc.json      # Semantic-release config
 │   └── .github/
