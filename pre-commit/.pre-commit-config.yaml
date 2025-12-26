@@ -30,9 +30,9 @@ repos:
         stages: [commit-msg]
         additional_dependencies: ['@commitlint/config-conventional']
 
-  # =============================================================================
-  # TERRAFORM HOOKS (uncomment for Terraform projects)
-  # =============================================================================
+# =============================================================================
+# TERRAFORM HOOKS (uncomment for Terraform projects)
+# =============================================================================
   # - repo: https://github.com/antonbabenko/pre-commit-terraform
   #   rev: v1.96.1
   #   hooks:
@@ -49,9 +49,9 @@ repos:
   #     # - id: terraform_tfsec         # Security scanning (requires tfsec)
   #     # - id: terraform_checkov       # Policy-as-code (requires checkov)
 
-  # =============================================================================
-  # JAVASCRIPT/TYPESCRIPT HOOKS (uncomment for JS/TS projects)
-  # =============================================================================
+# =============================================================================
+# JAVASCRIPT/TYPESCRIPT HOOKS (uncomment for JS/TS projects)
+# =============================================================================
   # - repo: https://github.com/pre-commit/mirrors-eslint
   #   rev: v9.15.0
   #   hooks:
@@ -61,30 +61,30 @@ repos:
   #       additional_dependencies:
   #         - eslint@9
   #         - eslint-config-next@15
-  #
   # - repo: https://github.com/pre-commit/mirrors-prettier
   #   rev: v4.0.0-alpha.8
   #   hooks:
   #     - id: prettier
   #       types_or: [javascript, jsx, ts, tsx, json, yaml, markdown, css]
 
-  # =============================================================================
-  # PYTHON HOOKS (uncomment for Python projects)
-  # =============================================================================
-  # - repo: https://github.com/psf/black
-  #   rev: 24.10.0
-  #   hooks:
-  #     - id: black
-  #
-  # - repo: https://github.com/charliermarsh/ruff-pre-commit
-  #   rev: v0.7.4
+# =============================================================================
+# PYTHON HOOKS (uncomment for Python projects)
+# =============================================================================
+  # - repo: https://github.com/astral-sh/ruff-pre-commit
+  #   rev: v0.8.6
   #   hooks:
   #     - id: ruff
   #       args: [--fix]
+  #     - id: ruff-format
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: v1.14.1
+  #   hooks:
+  #     - id: mypy
+  #       additional_dependencies: []  # Add your type stubs here
 
-  # =============================================================================
-  # GO HOOKS (uncomment for Go projects)
-  # =============================================================================
+# =============================================================================
+# GO HOOKS (uncomment for Go projects)
+# =============================================================================
   # - repo: https://github.com/dnephin/pre-commit-golang
   #   rev: v0.5.1
   #   hooks:
@@ -92,9 +92,9 @@ repos:
   #     - id: go-vet
   #     - id: go-build
 
-  # =============================================================================
-  # SHELL SCRIPT HOOKS (uncomment if you have shell scripts)
-  # =============================================================================
+# =============================================================================
+# SHELL SCRIPT HOOKS (uncomment if you have shell scripts)
+# =============================================================================
   # - repo: https://github.com/shellcheck-py/shellcheck-py
   #   rev: v0.10.0.1
   #   hooks:

@@ -76,9 +76,11 @@ git-workflow-starter/
 │   └── .husky/
 │       ├── commit-msg
 │       └── pre-commit
-└── pre-commit/              # Pre-commit framework approach
-    ├── package.json         # 5 deps (commitlint + releases)
-    └── .pre-commit-config.yaml
+├── pre-commit/              # Pre-commit framework approach
+│   ├── package.json         # 5 deps (commitlint + releases)
+│   └── .pre-commit-config.yaml
+└── examples/                # CI snippets to copy from
+    └── ci-python.yml
 ```
 
 ## Commit Format
@@ -177,6 +179,15 @@ Edit `.pre-commit-config.yaml`:
 - Uncomment hooks for your language/framework
 - Add custom hooks as needed
 - See [pre-commit.com](https://pre-commit.com/hooks.html) for available hooks
+
+**Included hooks by language:**
+| Language | Hooks |
+|----------|-------|
+| Python | ruff (lint + format), mypy (types) |
+| JavaScript | eslint, prettier |
+| Terraform | fmt, validate, tflint, docs |
+| Go | fmt, vet, build |
+| Shell | shellcheck |
 
 ### CI Pipeline
 
