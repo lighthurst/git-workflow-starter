@@ -8,24 +8,17 @@
 #   - Optional: crates.io publishing
 
 [workspace]
-# Create a single changelog for the entire workspace
-# Set to false for per-package changelogs
+# Update changelog when releasing
 changelog_update = true
 
-# Path to the changelog file
-changelog_path = "CHANGELOG.md"
+# Create git tags for new versions
+git_tag_enable = true
+
+# Create GitHub releases
+git_release_enable = true
 
 # Git tag format (default: "v{version}" for single package, "{name}-v{version}" for workspace)
 # git_tag_name = "v{{ version }}"
-
-# Commit message for release commits
-release_commit_message = "chore(release): release {{ version }}"
-
-# Create GitHub releases
-publish_github_release = true
-
-# Include contributors in release notes
-publish_contributors = true
 
 [changelog]
 # Changelog body format (keep-a-changelog style)
@@ -58,7 +51,7 @@ commit_parsers = [
     { message = "^chore|^ci", group = "Miscellaneous" },
 ]
 
-# Protect breaking changes
+# Protect breaking changes from being skipped
 protect_breaking_commits = true
 
 # =============================================================================
@@ -68,9 +61,8 @@ protect_breaking_commits = true
 #
 # [[package]]
 # name = "my-crate"
-# # Override settings for this package
 # changelog_path = "my-crate/CHANGELOG.md"
-# publish = true  # Set to false to skip publishing
+# publish = true  # Set to false to skip crates.io publishing
 #
 # [[package]]
 # name = "internal-crate"
