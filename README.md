@@ -2,9 +2,9 @@
 
 Drop-in git workflow tooling for any project. Choose your approach:
 
-| Approach | Best For | Commit Validation | Hooks |
-|----------|----------|-------------------|-------|
-| **Husky** | JS/TS projects | commitlint (npm) | npm-based |
+| Approach       | Best For                        | Commit Validation       | Hooks            |
+| -------------- | ------------------------------- | ----------------------- | ---------------- |
+| **Husky**      | JS/TS projects                  | commitlint (npm)        | npm-based        |
 | **Pre-commit** | Terraform, Go, Python, polyglot | conventional-pre-commit | Python framework |
 
 Both include semantic-release for automated versioning.
@@ -22,6 +22,7 @@ Both include semantic-release for automated versioning.
 ```
 
 The script will ask you to choose:
+
 1. Hook framework (Husky vs Pre-commit)
 2. Project type (for pre-commit: Terraform, JS, Python, Go, or generic)
 
@@ -101,17 +102,17 @@ docs: update README
 refactor!: change auth flow    # Breaking change
 ```
 
-**Types:** feat, fix, docs, style, refactor, perf, test, chore, revert, ci, build
+**Types:** feat, fix, docs, style, refactor, perf, test, chore, revert, ci, build, deps
 
 ## Automatic Releases
 
 Push to `main` triggers semantic-release:
 
-| Commit Type | Version Bump | Example |
-|-------------|--------------|---------|
-| `fix:` | Patch | 1.0.0 → 1.0.1 |
-| `feat:` | Minor | 1.0.0 → 1.1.0 |
-| `feat!:` or `BREAKING CHANGE:` | Major | 1.0.0 → 2.0.0 |
+| Commit Type                    | Version Bump | Example       |
+| ------------------------------ | ------------ | ------------- |
+| `fix:`                         | Patch        | 1.0.0 → 1.0.1 |
+| `feat:`                        | Minor        | 1.0.0 → 1.1.0 |
+| `feat!:` or `BREAKING CHANGE:` | Major        | 1.0.0 → 2.0.0 |
 
 Creates GitHub release + updates CHANGELOG.md automatically.
 
@@ -122,6 +123,7 @@ If your `main` branch requires PRs (branch protection), semantic-release needs a
 ### One-time setup (do this once per GitHub account)
 
 1. **Create the GitHub App**
+
    - Go to GitHub → Settings → Developer settings → GitHub Apps → New GitHub App
    - **Name:** `Release Bot` (or any name)
    - **Homepage URL:** `https://github.com/yourusername`
@@ -135,11 +137,13 @@ If your `main` branch requires PRs (branch protection), semantic-release needs a
    - Click "Create GitHub App"
 
 2. **Generate a private key**
+
    - On the app page, scroll to "Private keys"
    - Click "Generate a private key"
    - Save the `.pem` file
 
 3. **Note the App ID**
+
    - On the app page, copy the "App ID" number
 
 4. **Install the app on your repos**
@@ -151,9 +155,9 @@ If your `main` branch requires PRs (branch protection), semantic-release needs a
 
 Add these secrets to each repo (Settings → Secrets and variables → Actions):
 
-| Secret Name | Value |
-|-------------|-------|
-| `RELEASE_APP_ID` | The App ID number |
+| Secret Name               | Value                       |
+| ------------------------- | --------------------------- |
+| `RELEASE_APP_ID`          | The App ID number           |
 | `RELEASE_APP_PRIVATE_KEY` | Contents of the `.pem` file |
 
 **Tip:** Use organization-level secrets to avoid repeating this per repo.
@@ -174,6 +178,7 @@ Now semantic-release can push version commits and tags to `main`.
 ### Commitlint rules
 
 Edit `commitlint.config.js`:
+
 - Add/remove allowed scopes in `scope-enum`
 - Adjust `header-max-length` (default: 100)
 - Modify allowed commit types in `type-enum`
@@ -181,6 +186,7 @@ Edit `commitlint.config.js`:
 ### Pre-commit hooks
 
 Edit `.pre-commit-config.yaml`:
+
 - Uncomment hooks for your language/framework
 - Add custom hooks as needed
 - See [pre-commit.com](https://pre-commit.com/hooks.html) for available hooks
@@ -197,12 +203,14 @@ Edit `.pre-commit-config.yaml`:
 ### CI Pipeline
 
 Edit `.github/workflows/ci.yml`:
+
 - Replace placeholder steps with your actual validation
 - Add environment variables/secrets as needed
 
 ### Dependabot
 
 Edit `.github/dependabot.yml`:
+
 - Adjust `schedule.interval` (daily, weekly, monthly)
 - Add ecosystems for your stack (pip, docker, terraform, etc.)
 - Configure `ignore` rules to skip certain packages
