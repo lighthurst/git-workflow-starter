@@ -23,35 +23,24 @@ release = true
 
 [dev-dependencies]
 # cargo-husky: Automatically installs git hooks on cargo build/test
-# Hooks run: cargo fmt --check, cargo clippy, committed (commit msg validation)
-cargo-husky = { version = "1", default-features = false, features = ["run-cargo-fmt", "run-cargo-clippy"] }
-
-# committed: Conventional commit message linter (Rust-native)
-# Install globally with: cargo install committed
-# Or add as dev dependency for CI validation
+# Uses user-hooks feature with scripts in .cargo-husky/hooks/
+cargo-husky = { version = "1", default-features = false, features = ["user-hooks"] }
 
 # =============================================================================
-# CARGO-HUSKY CONFIGURATION
+# LOCAL HOOKS SETUP
 # =============================================================================
-# Add this section to configure cargo-husky hooks.
-# These hooks run automatically before each commit.
-
-[package.metadata.husky]
-hooks = { pre-commit = [
-    "cargo fmt -- --check",
-    "cargo clippy -- -D warnings"
-] }
-
-# =============================================================================
-# COMMIT MESSAGE VALIDATION
-# =============================================================================
-# For local commit message validation, install 'committed' globally:
+# cargo-husky requires hook scripts in .cargo-husky/hooks/ directory.
+# Copy the .cargo-husky/ folder from this template to your project root.
 #
-#   cargo install committed
+# Hooks included:
+#   - pre-commit: runs cargo fmt --check && cargo clippy
+#   - commit-msg: validates commit message with 'committed'
 #
-# Then create .committed.toml in your project root (see committed.toml.example)
-#
-# Or validate in CI only (see .github/workflows/ci.yml)
+# Prerequisites:
+#   1. cargo install committed
+#   2. Copy .cargo-husky/ folder to your project
+#   3. Ensure scripts are executable: chmod +x .cargo-husky/hooks/*
+#   4. Run cargo test or cargo build to install hooks
 
 # =============================================================================
 # WORKSPACE CONFIGURATION (for multi-crate projects)

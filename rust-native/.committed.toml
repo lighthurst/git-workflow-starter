@@ -1,0 +1,78 @@
+# committed.toml - Conventional commit message validation
+# https://github.com/crate-ci/committed
+#
+# This enforces conventional commits format:
+#   type(scope): description
+#
+# Example valid commits:
+#   feat(api): add user authentication endpoint
+#   fix(ui): resolve button alignment issue
+#   chore(deps): update dependencies
+
+# =============================================================================
+# COMMIT STYLE
+# =============================================================================
+
+# Use conventional commits style (type(scope): description)
+style = "conventional"
+
+# =============================================================================
+# ALLOWED TYPES
+# =============================================================================
+
+# Allowed commit types (conventional commits spec + extras)
+allowed_types = [
+    "feat",     # New feature
+    "fix",      # Bug fix
+    "docs",     # Documentation only
+    "style",    # Formatting, no code change
+    "refactor", # Code change that neither fixes a bug nor adds a feature
+    "perf",     # Performance improvement
+    "test",     # Adding or updating tests
+    "build",    # Build system or external dependencies
+    "ci",       # CI configuration
+    "chore",    # Other changes that don't modify src or test files
+    "revert",   # Reverts a previous commit
+    "config",   # Configuration changes
+]
+
+# =============================================================================
+# ALLOWED SCOPES
+# =============================================================================
+
+# Allowed scopes (customize for your project)
+# If scope is used, it must be from this list. Add project-specific scopes as needed.
+allowed_scopes = [
+    "api",
+    "auth",
+    "config",
+    "core",
+    "db",
+    "deps",
+    "infra",
+    "ui",
+]
+
+# =============================================================================
+# SUBJECT LINE
+# =============================================================================
+
+# Maximum length for the commit subject line
+subject_length = 100
+
+# Don't require capitalized subject (conventional commits use lowercase)
+subject_capitalized = false
+
+# Don't allow trailing punctuation
+subject_not_punctuated = true
+
+# Don't enforce imperative mood
+imperative_subject = false
+
+# =============================================================================
+# BODY
+# =============================================================================
+
+# Maximum line length in body (0 = no limit)
+line_length = 0
+hard_line_length = 0
