@@ -1,0 +1,77 @@
+# release-plz.toml - Automated release configuration
+# https://release-plz.ieni.dev/docs/config
+#
+# release-plz handles:
+#   - Version bumping based on conventional commits
+#   - CHANGELOG.md generation
+#   - Git tags and GitHub releases
+#   - Optional: crates.io publishing
+
+[workspace]
+# Create a single changelog for the entire workspace
+# Set to false for per-package changelogs
+changelog_update = true
+
+# Path to the changelog file
+changelog_path = "CHANGELOG.md"
+
+# Git tag format (default: "v{version}" for single package, "{name}-v{version}" for workspace)
+# git_tag_name = "v{{ version }}"
+
+# Commit message for release commits
+release_commit_message = "chore(release): release {{ version }}"
+
+# Create GitHub releases
+publish_github_release = true
+
+# Include contributors in release notes
+publish_contributors = true
+
+[changelog]
+# Changelog body format (keep-a-changelog style)
+body = """
+## [{{ version }}] - {{ date }}
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group | striptags | trim | upper_first }}
+{% for commit in commits %}
+- {{ commit.message | split(pat="\\n") | first | trim }}\
+{% if commit.scope %} *({{ commit.scope }})*{% endif %}\
+{% if commit.breaking %} **BREAKING**{% endif %}\
+ ([{{ commit.id | truncate(length=7, end="") }}]({{ commit.link }}))
+{% endfor %}
+{% endfor %}
+"""
+
+# Trim leading/trailing whitespace
+trim = true
+
+# Commit groups and their display order
+commit_parsers = [
+    { message = "^feat", group = "Features" },
+    { message = "^fix", group = "Bug Fixes" },
+    { message = "^doc", group = "Documentation" },
+    { message = "^perf", group = "Performance" },
+    { message = "^refactor", group = "Refactor" },
+    { message = "^style", group = "Styling" },
+    { message = "^test", group = "Testing" },
+    { message = "^chore\\(release\\)", skip = true },
+    { message = "^chore|^ci", group = "Miscellaneous" },
+]
+
+# Protect breaking changes
+protect_breaking_commits = true
+
+# =============================================================================
+# PACKAGE-SPECIFIC CONFIGURATION (for workspaces)
+# =============================================================================
+# Uncomment and customize for specific packages:
+#
+# [[package]]
+# name = "my-crate"
+# # Override settings for this package
+# changelog_path = "my-crate/CHANGELOG.md"
+# publish = true  # Set to false to skip publishing
+#
+# [[package]]
+# name = "internal-crate"
+# publish = false  # Don't publish internal crates

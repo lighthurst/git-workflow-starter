@@ -16,7 +16,6 @@ module.exports = {
         "revert",
         "ci",
         "build",
-        "deps",
       ],
     ],
     "type-case": [2, "always", "lowercase"],
@@ -36,6 +35,7 @@ module.exports = {
         "config",
         "core",
         "db",
+        "deps",
         "infra",
         "ui",
         // Add project-specific scopes as needed

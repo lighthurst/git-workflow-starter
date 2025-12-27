@@ -1,0 +1,27 @@
+# Rust / Cargo
+/target/
+**/*.rs.bk
+
+# Cargo.lock handling:
+# - INCLUDE Cargo.lock for binaries (applications, CLI tools)
+# - EXCLUDE Cargo.lock for libraries (uncomment line below for libs)
+# Cargo.lock
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+*.local
+
+# Build artifacts
+*.pdb
