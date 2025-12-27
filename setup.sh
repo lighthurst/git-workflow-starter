@@ -116,7 +116,7 @@ elif [[ "$FRAMEWORK" == "rust-native" ]]; then
     # Copy rust-native files
     cp "$SCRIPT_DIR/rust-native/.github/workflows/ci.yml" "$TARGET_DIR/.github/workflows/"
     cp "$SCRIPT_DIR/rust-native/release-plz.toml" "$TARGET_DIR/"
-    cp "$SCRIPT_DIR/rust-native/committed.toml" "$TARGET_DIR/"
+    cp "$SCRIPT_DIR/rust-native/.committed.toml" "$TARGET_DIR/"
     cp "$SCRIPT_DIR/rust-native/.gitignore" "$TARGET_DIR/"
     cp "$SCRIPT_DIR/rust-native/Cargo.toml.template" "$TARGET_DIR/"
 
@@ -141,7 +141,7 @@ elif [[ "$FRAMEWORK" == "rust-native" ]]; then
     echo -e "${YELLOW}Key files:${NC}"
     echo "  - Cargo.toml.template: Shows how to configure cargo-husky"
     echo "  - .cargo-husky/hooks/: Git hook scripts (pre-commit, commit-msg)"
-    echo "  - committed.toml: Conventional commit rules"
+    echo "  - .committed.toml: Conventional commit rules"
     echo "  - release-plz.toml: Release automation config"
     echo ""
 

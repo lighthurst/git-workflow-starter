@@ -70,7 +70,7 @@ Then edit `.pre-commit-config.yaml` to uncomment hooks for your stack.
 ```bash
 cp rust-native/.github/workflows/ci.yml /your/project/.github/workflows/
 cp rust-native/release-plz.toml /your/project/
-cp rust-native/committed.toml /your/project/
+cp rust-native/.committed.toml /your/project/
 cp rust-native/.gitignore /your/project/
 cp rust-native/Cargo.toml.template /your/project/
 cp -r rust-native/.cargo-husky /your/project/
@@ -114,7 +114,7 @@ git-workflow-starter/
 │   │   └── hooks/
 │   │       ├── pre-commit   # cargo fmt + clippy
 │   │       └── commit-msg   # committed validation
-│   ├── committed.toml       # Conventional commit rules
+│   ├── .committed.toml      # Conventional commit rules
 │   ├── release-plz.toml     # release-plz config
 │   ├── .gitignore           # Rust-specific ignores
 │   └── .github/
@@ -241,11 +241,11 @@ Edit `.pre-commit-config.yaml`:
 
 ### Rust-native config
 
-**Commit validation** - Edit `committed.toml`:
+**Commit validation** - Edit `.committed.toml`:
 
-- Add/remove allowed types in `types`
-- Add allowed scopes in `scopes` (or leave empty for any)
-- Adjust `max_length` for subject line
+- Add/remove allowed types in `allowed_types`
+- Add allowed scopes in `allowed_scopes` (or leave empty for any)
+- Adjust `subject_length` for subject line limit
 
 **Release automation** - Edit `release-plz.toml`:
 

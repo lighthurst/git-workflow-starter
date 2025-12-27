@@ -1,2 +1,2 @@
 #!/bin/sh
-committed "$1"
+committed --config .committed.toml --commit-file "$1"
