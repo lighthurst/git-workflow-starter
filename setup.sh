@@ -42,11 +42,17 @@ echo "     - Better for Terraform/Go/Python/polyglot"
 echo "     - Huge hook ecosystem"
 echo "     - Still uses npm for semantic-release only"
 echo ""
-read -p "Enter choice [1 or 2]: " HOOK_CHOICE
+echo "  3) Rust-native"
+echo "     - Zero Node.js/Python dependencies"
+echo "     - Uses cargo-husky for hooks"
+echo "     - Uses release-plz for releases"
+echo ""
+read -p "Enter choice [1-3]: " HOOK_CHOICE
 
 case $HOOK_CHOICE in
     1) FRAMEWORK="husky" ;;
     2) FRAMEWORK="pre-commit" ;;
+    3) FRAMEWORK="rust-native" ;;
     *) echo -e "${RED}Invalid choice${NC}"; exit 1 ;;
 esac
 
@@ -63,6 +69,9 @@ if [[ "$FRAMEWORK" == "pre-commit" ]]; then
     echo "  5) Generic (just basics)"
     echo ""
     read -p "Enter choice [1-5]: " PROJECT_TYPE
+elif [[ "$FRAMEWORK" == "rust-native" ]]; then
+    echo -e "${YELLOW}[2/2] Rust-native selected - copying files...${NC}"
+    PROJECT_TYPE="na"
 else
     echo -e "${YELLOW}[2/2] Husky selected - copying files...${NC}"
     PROJECT_TYPE="na"
@@ -75,11 +84,15 @@ echo ""
 # Create directories
 mkdir -p "$TARGET_DIR/.github/workflows"
 
-# Copy shared files (used by both approaches)
-cp "$SCRIPT_DIR/shared/.releaserc.json" "$TARGET_DIR/"
-cp "$SCRIPT_DIR/shared/commitlint.config.js" "$TARGET_DIR/"
-cp "$SCRIPT_DIR/shared/.nvmrc" "$TARGET_DIR/"
-cp "$SCRIPT_DIR/shared/.github/workflows/ci.yml" "$TARGET_DIR/.github/workflows/"
+# Copy shared files (for husky and pre-commit, NOT rust-native)
+if [[ "$FRAMEWORK" != "rust-native" ]]; then
+    cp "$SCRIPT_DIR/shared/.releaserc.json" "$TARGET_DIR/"
+    cp "$SCRIPT_DIR/shared/commitlint.config.js" "$TARGET_DIR/"
+    cp "$SCRIPT_DIR/shared/.nvmrc" "$TARGET_DIR/"
+    cp "$SCRIPT_DIR/shared/.github/workflows/ci.yml" "$TARGET_DIR/.github/workflows/"
+fi
+
+# Copy GitHub templates (used by all approaches)
 cp "$SCRIPT_DIR/shared/.github/dependabot.yml" "$TARGET_DIR/.github/"
 cp "$SCRIPT_DIR/shared/.github/pull_request_template.md" "$TARGET_DIR/.github/"
 
@@ -97,6 +110,33 @@ if [[ "$FRAMEWORK" == "husky" ]]; then
     echo "  cd $TARGET_DIR"
     echo "  npm install"
     echo "  # Edit .husky/pre-commit to add your checks"
+    echo ""
+
+elif [[ "$FRAMEWORK" == "rust-native" ]]; then
+    # Copy rust-native files
+    cp "$SCRIPT_DIR/rust-native/.github/workflows/ci.yml" "$TARGET_DIR/.github/workflows/"
+    cp "$SCRIPT_DIR/rust-native/release-plz.toml" "$TARGET_DIR/"
+    cp "$SCRIPT_DIR/rust-native/committed.toml" "$TARGET_DIR/"
+    cp "$SCRIPT_DIR/rust-native/.gitignore" "$TARGET_DIR/"
+    cp "$SCRIPT_DIR/rust-native/Cargo.toml.template" "$TARGET_DIR/"
+
+    # Update dependabot for cargo
+    sed -i.bak 's/package-ecosystem: "npm"/package-ecosystem: "cargo"/' "$TARGET_DIR/.github/dependabot.yml"
+    rm -f "$TARGET_DIR/.github/dependabot.yml.bak"
+
+    echo -e "${GREEN}Files copied!${NC}"
+    echo ""
+    echo -e "${YELLOW}Next steps:${NC}"
+    echo "  cd $TARGET_DIR"
+    echo "  # Review Cargo.toml.template and merge into your Cargo.toml"
+    echo "  # Add cargo-husky to dev-dependencies"
+    echo "  cargo install committed  # for local commit validation"
+    echo "  cargo build  # installs git hooks via cargo-husky"
+    echo ""
+    echo -e "${YELLOW}Key files:${NC}"
+    echo "  - Cargo.toml.template: Shows how to configure cargo-husky"
+    echo "  - committed.toml: Conventional commit rules"
+    echo "  - release-plz.toml: Release automation config"
     echo ""
 
 else

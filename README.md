@@ -2,14 +2,16 @@
 
 Drop-in git workflow tooling for any project. Choose your approach:
 
-| Approach       | Best For                        | Commit Validation       | Hooks            |
-| -------------- | ------------------------------- | ----------------------- | ---------------- |
-| **Husky**      | JS/TS projects                  | commitlint (npm)        | npm-based        |
-| **Pre-commit** | Terraform, Go, Python, polyglot | conventional-pre-commit | Python framework |
+| Approach        | Best For                        | Commit Validation | Hooks            | Releases         |
+| --------------- | ------------------------------- | ----------------- | ---------------- | ---------------- |
+| **Husky**       | JS/TS projects                  | commitlint (npm)  | npm-based        | semantic-release |
+| **Pre-commit**  | Terraform, Go, Python, polyglot | commitlint (npm)  | Python framework | semantic-release |
+| **Rust-native** | Rust projects                   | committed (Rust)  | cargo-husky      | release-plz      |
 
-Both include semantic-release for automated versioning.
+**Requirements:**
 
-**Requires:** Node 22+ (pinned via `.nvmrc`)
+- Husky / Pre-commit: Node 22+ (pinned via `.nvmrc`)
+- Rust-native: Rust toolchain only (no Node/Python)
 
 ## Quick Start
 
@@ -23,7 +25,7 @@ Both include semantic-release for automated versioning.
 
 The script will ask you to choose:
 
-1. Hook framework (Husky vs Pre-commit)
+1. Hook framework (Husky, Pre-commit, or Rust-native)
 2. Project type (for pre-commit: Terraform, JS, Python, Go, or generic)
 
 ## Manual Setup
@@ -63,12 +65,31 @@ Then edit `.pre-commit-config.yaml` to uncomment hooks for your stack.
 
 **Important:** Commit `package-lock.json` - do NOT add it to `.gitignore`. CI requires it for `npm ci`.
 
+### Option C: Rust-native
+
+```bash
+cp rust-native/.github/workflows/ci.yml /your/project/.github/workflows/
+cp rust-native/release-plz.toml /your/project/
+cp rust-native/committed.toml /your/project/
+cp rust-native/.gitignore /your/project/
+cp rust-native/Cargo.toml.template /your/project/
+cp shared/.github/dependabot.yml /your/project/.github/
+cp shared/.github/pull_request_template.md /your/project/.github/
+
+cd /your/project
+# Review Cargo.toml.template and merge into your Cargo.toml
+cargo install committed  # for local commit validation
+cargo build  # installs git hooks via cargo-husky
+```
+
+Edit `dependabot.yml` to use `package-ecosystem: "cargo"` instead of npm.
+
 ## Folder Structure
 
 ```
 git-workflow-starter/
 ├── setup.sh                 # Interactive setup script
-├── shared/                  # Used by both approaches
+├── shared/                  # Used by husky and pre-commit
 │   ├── .nvmrc               # Node version (22)
 │   ├── commitlint.config.js # Commit message rules
 │   ├── .releaserc.json      # Semantic-release config
@@ -85,13 +106,21 @@ git-workflow-starter/
 ├── pre-commit/              # Pre-commit framework approach
 │   ├── package.json         # 5 deps (commitlint + releases)
 │   └── .pre-commit-config.yaml
+├── rust-native/             # Rust-native approach (no Node/Python)
+│   ├── Cargo.toml.template  # cargo-husky + committed config
+│   ├── committed.toml       # Conventional commit rules
+│   ├── release-plz.toml     # release-plz config
+│   ├── .gitignore           # Rust-specific ignores
+│   └── .github/
+│       └── workflows/
+│           └── ci.yml       # Rust CI + release-plz
 └── examples/                # CI snippets to copy from
     └── ci-python.yml
 ```
 
 ## Commit Format
 
-Both approaches enforce conventional commits:
+All approaches enforce conventional commits:
 
 ```
 type(scope): description
@@ -102,11 +131,13 @@ docs: update README
 refactor!: change auth flow    # Breaking change
 ```
 
-**Types:** feat, fix, docs, style, refactor, perf, test, chore, revert, ci, build, deps
+**Types:** feat, fix, docs, style, refactor, perf, test, chore, revert, ci, build
+
+**Scopes:** api, auth, config, core, db, deps, infra, ui (or add your own)
 
 ## Automatic Releases
 
-Push to `main` triggers semantic-release:
+Push to `main` triggers automated releases (semantic-release or release-plz):
 
 | Commit Type                    | Version Bump | Example       |
 | ------------------------------ | ------------ | ------------- |
@@ -116,9 +147,11 @@ Push to `main` triggers semantic-release:
 
 Creates GitHub release + updates CHANGELOG.md automatically.
 
+**Note:** Rust-native uses release-plz instead of semantic-release. Same version bump logic, but updates `Cargo.toml` instead of `package.json`.
+
 ## GitHub App Setup (Required for Protected Branches)
 
-If your `main` branch requires PRs (branch protection), semantic-release needs a GitHub App to bypass protection for automated releases.
+If your `main` branch requires PRs (branch protection), the release tools (semantic-release or release-plz) need a GitHub App to bypass protection for automated releases.
 
 ### One-time setup (do this once per GitHub account)
 
@@ -169,7 +202,7 @@ Add these secrets to each repo (Settings → Secrets and variables → Actions):
 3. Under "Bypass list", add your GitHub App
 4. Save
 
-Now semantic-release can push version commits and tags to `main`.
+Now the release tool can push version commits and tags to `main`.
 
 ---
 
@@ -199,6 +232,25 @@ Edit `.pre-commit-config.yaml`:
 | Terraform | fmt, validate, tflint, docs |
 | Go | fmt, vet, build |
 | Shell | shellcheck |
+
+### Rust-native config
+
+**Commit validation** - Edit `committed.toml`:
+
+- Add/remove allowed types in `types`
+- Add allowed scopes in `scopes` (or leave empty for any)
+- Adjust `max_length` for subject line
+
+**Release automation** - Edit `release-plz.toml`:
+
+- Customize changelog format in `[changelog]`
+- Configure per-package settings for workspaces
+- Enable/disable crates.io publishing
+
+**Git hooks** - Edit `Cargo.toml`:
+
+- Modify `[package.metadata.husky]` hooks section
+- Add/remove pre-commit checks
 
 ### CI Pipeline
 

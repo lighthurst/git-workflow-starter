@@ -1,0 +1,68 @@
+# Cargo.toml Template for git-workflow-starter (Rust-native track)
+#
+# Copy the relevant sections below into your project's Cargo.toml.
+# This template shows how to set up:
+#   - cargo-husky for git hooks
+#   - committed for conventional commit validation
+#
+# After adding these dependencies, run `cargo test` or `cargo build` to
+# install the git hooks automatically.
+
+[package]
+name = "your-project-name"
+version = "0.1.0"
+edition = "2021"
+
+# Required for release-plz to manage releases
+[package.metadata.release-plz]
+# Set to false if this is a library you don't want to publish
+release = true
+
+[dependencies]
+# Your project dependencies here
+
+[dev-dependencies]
+# cargo-husky: Automatically installs git hooks on cargo build/test
+# Hooks run: cargo fmt --check, cargo clippy, committed (commit msg validation)
+cargo-husky = { version = "1", default-features = false, features = ["run-cargo-fmt", "run-cargo-clippy"] }
+
+# committed: Conventional commit message linter (Rust-native)
+# Install globally with: cargo install committed
+# Or add as dev dependency for CI validation
+
+# =============================================================================
+# CARGO-HUSKY CONFIGURATION
+# =============================================================================
+# Add this section to configure cargo-husky hooks.
+# These hooks run automatically before each commit.
+
+[package.metadata.husky]
+hooks = { pre-commit = [
+    "cargo fmt -- --check",
+    "cargo clippy -- -D warnings"
+] }
+
+# =============================================================================
+# COMMIT MESSAGE VALIDATION
+# =============================================================================
+# For local commit message validation, install 'committed' globally:
+#
+#   cargo install committed
+#
+# Then create .committed.toml in your project root (see committed.toml.example)
+#
+# Or validate in CI only (see .github/workflows/ci.yml)
+
+# =============================================================================
+# WORKSPACE CONFIGURATION (for multi-crate projects)
+# =============================================================================
+# If you have a workspace, add this to your root Cargo.toml:
+#
+# [workspace]
+# members = ["crate1", "crate2"]
+#
+# [workspace.package]
+# version = "0.1.0"
+# edition = "2021"
+# license = "MIT"
+# repository = "https://github.com/your-org/your-repo"
