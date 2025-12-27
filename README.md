@@ -73,13 +73,15 @@ cp rust-native/release-plz.toml /your/project/
 cp rust-native/committed.toml /your/project/
 cp rust-native/.gitignore /your/project/
 cp rust-native/Cargo.toml.template /your/project/
+cp -r rust-native/.cargo-husky /your/project/
 cp shared/.github/dependabot.yml /your/project/.github/
 cp shared/.github/pull_request_template.md /your/project/.github/
 
 cd /your/project
 # Review Cargo.toml.template and merge into your Cargo.toml
+chmod +x .cargo-husky/hooks/*  # ensure hooks are executable
 cargo install committed  # for local commit validation
-cargo build  # installs git hooks via cargo-husky
+cargo test  # installs git hooks via cargo-husky
 ```
 
 Edit `dependabot.yml` to use `package-ecosystem: "cargo"` instead of npm.
@@ -107,7 +109,11 @@ git-workflow-starter/
 │   ├── package.json         # 5 deps (commitlint + releases)
 │   └── .pre-commit-config.yaml
 ├── rust-native/             # Rust-native approach (no Node/Python)
-│   ├── Cargo.toml.template  # cargo-husky + committed config
+│   ├── Cargo.toml.template  # cargo-husky config
+│   ├── .cargo-husky/
+│   │   └── hooks/
+│   │       ├── pre-commit   # cargo fmt + clippy
+│   │       └── commit-msg   # committed validation
 │   ├── committed.toml       # Conventional commit rules
 │   ├── release-plz.toml     # release-plz config
 │   ├── .gitignore           # Rust-specific ignores
@@ -247,10 +253,10 @@ Edit `.pre-commit-config.yaml`:
 - Configure per-package settings for workspaces
 - Enable/disable crates.io publishing
 
-**Git hooks** - Edit `Cargo.toml`:
+**Git hooks** - Edit `.cargo-husky/hooks/`:
 
-- Modify `[package.metadata.husky]` hooks section
-- Add/remove pre-commit checks
+- `pre-commit`: runs before commit (cargo fmt, clippy)
+- `commit-msg`: validates commit message (committed)
 
 ### CI Pipeline
 
