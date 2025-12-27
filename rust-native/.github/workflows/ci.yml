@@ -22,6 +22,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -43,13 +46,16 @@ jobs:
       # Validate commit messages (on PRs)
       - name: Install committed
         if: github.event_name == 'pull_request'
-        run: cargo install committed
+        uses: taiki-e/cache-cargo-install-action@v2
+        with:
+          tool: committed
 
       - name: Validate commit messages
         if: github.event_name == 'pull_request'
         run: |
           git fetch origin main
-          committed origin/main..HEAD
+          echo "Validating commits:" && git log --oneline origin/main..HEAD
+          committed --config .committed.toml origin/main..HEAD
 
   release:
     name: Release
